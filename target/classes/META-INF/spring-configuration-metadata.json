@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "name": "com.springbootjpa.datasource",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.anubhav.springbootjpa.config.DataSourceConfiguration",
+      "sourceMethod": "public javax.sql.DataSource dataSource() "
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

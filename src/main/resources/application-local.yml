@@ -1,0 +1,36 @@
+
+com:
+  springbootjpa:
+    datasource:
+      driverClassName: com.mysql.jdbc.Driver
+      jdbcUrl: jdbc:mysql://localhost:3306/mydb
+      username: root
+      password: root123
+      
+server:  servlet:    context-path: /SpringBootJpa
+  port: 8084
+  
+spring:  jpa:    show-sql: true
+    hibernate:      ddl-auto: update
+      naming:        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+  data:    rest:      base-path: /api
+      detection-strategy: annotated
+  mvc:    throw-exception-if-no-handler-found: true
+    static-path-pattern: /resources/**
+    view:      prefix: /WEB-INF/VIEWS/
+      suffix: .jsp
+  resources:    static-locations:    - classpath:/static/js/
+    - classpath:/static/css/
+  
+  
+  
+      
+      
+      
+
+    
+   

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+    http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+	<named-query name="Department.departmentemployeeInt">
+		<query><![CDATA[select
+		   dept.deptId as deptId,
+		   dept.deptName as deptName,
+		   emp.empId as empId,
+		   emp.empName as empName,
+		   emp.empMail as empMail,
+		   emp.empGender as empGender,
+		   emp.empDoj as empDoj,
+		   empType.employeeTypeName as empTypeName 
+		from
+		   Department dept,
+		   Employee emp,
+		   EmployeeType empType 
+		where
+		   dept.deptId = emp.department.deptId 
+		   and emp.employeeType.employeeTypeId = empType.employeeTypeId 
+		   and dept.deptId = :Id 
+		group by
+		   dept.deptId,
+		   dept.deptName,
+		   emp.empId,
+		   emp.empName,
+		   emp.empMail,
+		   emp.empGender,
+		   emp.empDoj,
+		   empType.employeeTypeName]]></query>
+	</named-query>
+
+	<named-native-query
+		name="Department.departmentemployeefields"
+		result-set-mapping="DepartmentEmployeeFieldsMapping">
+		<query><![CDATA[select
+		   dept.id,
+		   dept.name,
+		   emp.id as empId,
+		   emp.name as empName,
+           emp.mail,
+		   emp.gender,
+		   emp.doj as doj,
+		   empType.id as empTypeId,
+		   empType.name as empTypeName 
+		from
+		   department dept,
+		   employee emp,
+		   employeetype as empType 
+		where
+		   dept.id = emp.deptId 
+		   and emp.empTypeId = empType.id 
+		   and dept.id = :deptId 
+		group by
+		   dept.id,
+		   dept.name,
+		   emp.id,
+		   emp.name,
+		   emp.mail,
+            emp.gender,
+		   emp.doj,
+		   empType.id,
+		   empType.name]]></query>
+	</named-native-query>
+	
+	<named-native-query
+		name="Department.departmentemployeefieldsList"
+		result-set-mapping="DepartmentEmployeeFieldsMapping">
+		<query><![CDATA[select
+		   dept.id,
+		   dept.name,
+		   emp.id as empId,
+		   emp.name as empName,
+           emp.mail,
+		   emp.gender,
+		   emp.doj as doj,
+		   empType.id as empTypeId,
+		   empType.name as empTypeName 
+		from
+		   department dept,
+		   employee emp,
+		   employeetype as empType 
+		where
+		   dept.id = emp.deptId 
+		   and emp.empTypeId = empType.id
+		group by
+		   dept.id,
+		   dept.name,
+		   emp.id,
+		   emp.name,
+		   emp.mail,
+           emp.gender,
+		   emp.doj,
+		   empType.id,
+		   empType.name]]></query>
+	</named-native-query>
+	
+
+	<named-native-query
+		name="Department.departmentemployee"
+		result-set-mapping="DepartmentEmployeeMapping">
+		<query><![CDATA[select
+		   dept.id,
+		   dept.name,
+		   emp.id as empId,
+		   emp.name as empName,
+		   emp.gender,
+		   emp.mail,
+		   emp.doj as doj,
+		   empType.id as empTypeId,
+		   empType.name as empTypeName,
+		   case
+		      empType.name 
+		      when
+		         'Permanent' 
+		      then
+		         'N' 
+		      else
+		         'Y' 
+		   end
+		   as IsContractor 
+		from
+		   department dept, employee emp, employeetype as empType 
+		where
+		   dept.id = emp.deptId 
+		   and emp.empTypeId = empType.id 
+		   and dept.id = :deptId
+		group by
+		   dept.id, dept.name, emp.id, emp.name, emp.gender, emp.mail, emp.doj, empType.id, empType.name, IsContractor]]></query>
+	</named-native-query>
+	
+	<sql-result-set-mapping
+		name="DepartmentEmployeeFieldsMapping">
+		<constructor-result
+			target-class="com.anubhav.springbootjpa.entities.DepartmentEmployeeFields">
+			<column name="id" class="java.lang.Integer" />
+			<column name="name" class="java.lang.String" />
+			<column name="empId" class="java.lang.Integer" />
+			<column name="empName" class="java.lang.String" />
+			<column name="gender" class="java.lang.String" />
+			<column name="mail" class="java.lang.String" />
+			<column name="doj" class="java.sql.Date" />
+			<column name="empTypeId" class="java.lang.Integer" />
+			<column name="empTypeName" class="java.lang.String" />
+		</constructor-result>
+	</sql-result-set-mapping>
+
+	<sql-result-set-mapping
+		name="DepartmentEmployeeMapping">
+		<constructor-result
+			target-class="com.anubhav.springbootjpa.entities.DepartmentEmployee">
+			<column name="id" class="java.lang.Integer" />
+			<column name="name" class="java.lang.String" />
+			<column name="empId" class="java.lang.Integer" />
+			<column name="empName" class="java.lang.String" />
+			<column name="gender" class="java.lang.String" />
+			<column name="mail" class="java.lang.String" />
+			<column name="doj" class="java.sql.Date" />
+			<column name="empTypeId" class="java.lang.Integer" />
+			<column name="empTypeName" class="java.lang.String" />
+			<column name="IsContractor" class="java.lang.Character" />
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+
+</entity-mappings>
